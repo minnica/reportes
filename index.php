@@ -1,5 +1,6 @@
 <?php    
 $link = new PDO('mysql:host=localhost;dbname=gilbertm_prueba', 'root', ''); 
+$conexion=mysqli_connect('localhost','root','','gilbertm_prueba');
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -9,6 +10,7 @@ $link = new PDO('mysql:host=localhost;dbname=gilbertm_prueba', 'root', '');
     <title>REPORTES</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <script src="main.js"></script>
 </head>
 <body class="bg-light">
     <nav class="navbar navbar-expand-md bg-light navbar-light">
@@ -133,32 +135,25 @@ $link = new PDO('mysql:host=localhost;dbname=gilbertm_prueba', 'root', '');
             </div>
             <div class="col-xl-4 col-md-6 mb-4 mt-3">
                 <p align="center">HISTORIAL DE MONTAJE</p>
-                <select name="" id="" class="form-control">
-                    <option value="">SELECCIONA MÓDULO</option>
-                    <option value="">E2</option>
-                    <option value="">E3</option>
-                    <option value="">E4</option>
-                    <option value="">M</option>
-                </select>
-                <table class="table table-bordered table-sm shadow h-60 text-center">
-                    <thead>
-                        <th>FECHA</th>
-                        <th>PESO TOTAL</th>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($link->query("SELECT Date_format(fecha_montaje,'%d %b %Y') as fecha_montaje, FORMAT(SUM(peso_unitario),2) as montaje FROM tabla WHERE montaje='SI' GROUP BY DAY(fecha_montaje)") as $row){ ?> 
-                            <tr>
-                                <td><?php echo $row['fecha_montaje'] ?></td>
-                                <td><span class=""><?php echo $row['montaje']?></span></td>
-                            </tr>
-                            <?php
+                <form>
+                    <select name="users" class="form-control" onchange="showUser(this.value)">
+                        <option value="">Seleccione un modulo</option>
+                        <?php 
+                        $sql = "SELECT DISTINCT(modulo) as modulo FROM tabla";
+                        $query = $conexion -> query ($sql);
+                        while($valores = mysqli_fetch_array($query)){
+                            echo "<option value='".$valores['modulo']."'>".$valores['modulo']."</option>";
                         }
                         ?>
-                    </tbody>
-                </table>
+                    </select>
+                </form>
+                <div id="txtHint"><b>Seleccione el módulo para visualizar el historial</b></div>
             </div>
         </div>
     </div>
+
+    
+
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>    
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
