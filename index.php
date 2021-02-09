@@ -136,10 +136,10 @@ $conexion=mysqli_connect('localhost','root','','gilbertm_prueba');
             <div class="col-xl-4 col-md-6 mb-4 mt-3">
                 <p align="center">HISTORIAL DE MONTAJE</p>
                 <form>
-                    <select name="users" class="form-control" onchange="showUser(this.value)">
+                    <select name="users" class="form-control bg-light" onchange="showUser(this.value)">
                         <option value="">Seleccione un modulo</option>
                         <?php 
-                        $sql = "SELECT DISTINCT(modulo) as modulo FROM tabla";
+                        $sql = "SELECT modulo, fecha_montaje AS fecha, FORMAT(sum(peso_unitario),2) AS peso from tabla WHERE montaje= 'SI' GROUP BY modulo";
                         $query = $conexion -> query ($sql);
                         while($valores = mysqli_fetch_array($query)){
                             echo "<option value='".$valores['modulo']."'>".$valores['modulo']."</option>";
@@ -147,7 +147,7 @@ $conexion=mysqli_connect('localhost','root','','gilbertm_prueba');
                         ?>
                     </select>
                 </form>
-                <div id="txtHint"><b>Seleccione el módulo para visualizar el historial</b></div>
+                <div id="txtHint"></div>
             </div>
         </div>
     </div>

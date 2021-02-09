@@ -26,7 +26,7 @@ if (!$con) {
 }
 
 mysqli_select_db($con,"gilbertm_prueba");
-$sql="SELECT modulo, Date_format(curdate(),'%d/%m/%Y') AS fecha, FORMAT(sum(peso_unitario),2) AS peso from tabla WHERE modulo = '".$q."' AND montaje= 'SI' AND  DATE(fecha_montaje)= DATE(CURDATE()) GROUP BY modulo";
+$sql="SELECT modulo, Date_format(fecha_montaje,'%d/%m/%Y') as fecha, FORMAT(sum(peso_unitario),2) AS peso from tabla WHERE modulo = '".$q."' AND montaje= 'SI' GROUP BY fecha DESC ORDER BY fecha_montaje DESC";
 $result = mysqli_query($con,$sql);
 
 echo "<table class='table table-bordered table-sm shadow h-60 text-center'>
